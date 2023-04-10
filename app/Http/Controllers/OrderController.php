@@ -63,7 +63,7 @@ class OrderController extends Controller
             $result->order_items()->saveMany($entry);
             $result->load(['order_items' => function ($query) {
                 $query->with('item');
-            }]);
+            }])->load('customer');
             DB::commit();
             return response()->json($result, Response::HTTP_OK);
         } catch (QueryException $e) {
