@@ -19,7 +19,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return Order::all()->load('order_items')->load('customer');
+        return Order::with('order_items.item', 'customer')->get();
+        // return Order::all()->load('order_items')->with->load('customer');
     }
 
     /**
@@ -60,7 +61,9 @@ class OrderController extends Controller
                 array_push($entry, $item);
             }
             $result->order_items()->saveMany($entry);
-            $result->load('order_items');
+            $result->load(['order_items' => function ($query) {
+                $query->with('item');
+            }]);
             DB::commit();
             return response()->json($result, Response::HTTP_OK);
         } catch (QueryException $e) {
