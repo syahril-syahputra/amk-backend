@@ -17,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [AuthController::class, 'login']);
 require_once 'item.api.php';
 require_once 'customer.api.php';
+require_once 'order.api.php';
